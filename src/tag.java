@@ -1,20 +1,43 @@
 import java.applet.Applet;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class tag extends Applet implements Runnable, KeyListener {
-	
-	
+	int width,height;
+	int tileSize=1;
+	drawer drawer;
+	 Image backbuffer;
+	 public  Graphics backg;
+	 drawer draw;
 	public void init(){
 		super.init();
 		setSize(800, 480);
-		setBackground(Color.BLACK);
+		//setBackground(Color.BLACK);
 		setFocusable(true);
-		addKeyListener(this);
+	//	addKeyListener(this);
 		Frame frame = (Frame) this.getParent().getParent();
+		 width = getSize().width;
+	      height = getSize().height;
+
+	      backbuffer = createImage( width, height );
+	      backg = backbuffer.getGraphics();
+	     // backg.setColor( Color.blue );
+	      //b;ckg.fillRect( 0, 0, width, height );
+	      //backg.setColor( Color.white );
+	      drawer = new drawer(backg,width,height);
+		/* backbuffer = createImage( getSize().width, getSize().height );
+	System.out.println(getSize().width);
 	     frame.setTitle("Awesome adventure 2");
+	     draw=new drawer(backbuffer,getSize().width,getSize().height);
+	    */ repaint();
+	    //  e.consume();
+	    drawer.drawCheckers(backg, 2);
+			addKeyListener(this);
 	}
 	
 	public void start(){
@@ -46,10 +69,14 @@ public class tag extends Applet implements Runnable, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_UP:
-            System.out.println("moving up");
+
+		    drawer.drawCheckers(backg, tileSize++);
+			System.out.println("moving up");
 		break;
 		//oops
 		case KeyEvent.VK_DOWN:
+
+		    drawer.drawCheckers(backg, tileSize--);
             System.out.println("moving down");
 		break;
 			
@@ -94,10 +121,44 @@ public class tag extends Applet implements Runnable, KeyListener {
         }
 		
 	}
+	   public void update( Graphics g ) {
+		      g.drawImage(backbuffer, 0, 0, this );
+		   }
 
+		   public void paint( Graphics g ) {
+		      update( g );
+		   }
+	/* public void paint(Graphics g) {
+         
+         int row;   // Row number, from 0 to 7
+         int col;   // Column number, from 0 to 7
+         int x,y;   // Top-left corner of square
+      
+         for ( row = 0;  row < 8;  row++ ) {
+         
+            for ( col = 0;  col < 8;  col++) {
+               x = col * 20;
+               y = row * 20;
+               if ( (row % 2) == (col % 2) )
+                  g.setColor(Color.red);
+               else
+                  g.setColor(Color.black);
+               g.fillRect(x, y, 20, 20);
+            } 
+         
+         } // end for row
+      
+      }  // end paint()
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-}
+		 update(draw.backg)
+}*/
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}}
