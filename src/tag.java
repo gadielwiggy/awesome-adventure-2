@@ -48,7 +48,7 @@ public class tag extends Applet implements Runnable, KeyListener {
 		case KeyEvent.VK_UP:
             System.out.println("moving up");
 		break;
-		
+		//oops
 		case KeyEvent.VK_DOWN:
             System.out.println("moving down");
 		break;
