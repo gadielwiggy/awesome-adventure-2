@@ -6,37 +6,41 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+ 
 public class tag extends Applet implements Runnable, KeyListener {
 	int width,height;
-	int tileSize=1;
+	int rowNum=100;
+	int colNum=200;
+	int tileSize=8;
 	drawer drawer;
 	 Image backbuffer;
 	 public  Graphics backg;
 	 drawer draw;
 	public void init(){
 		super.init();
-		setSize(800, 480);
+		width=(colNum)*tileSize;
+		height=(rowNum)*tileSize;
+		setSize(width, height);
 		//setBackground(Color.BLACK);
 		setFocusable(true);
 	//	addKeyListener(this);
 		Frame frame = (Frame) this.getParent().getParent();
-		 width = getSize().width;
-	      height = getSize().height;
+		 //width = getSize().width;
+	      //height = getSize().height;
 
 	      backbuffer = createImage( width, height );
 	      backg = backbuffer.getGraphics();
 	     // backg.setColor( Color.blue );
 	      //b;ckg.fillRect( 0, 0, width, height );
 	      //backg.setColor( Color.white );
-	      drawer = new drawer(backg,width,height);
+	      drawer = new drawer(backg,rowNum, colNum,tileSize);
 		/* backbuffer = createImage( getSize().width, getSize().height );
 	System.out.println(getSize().width);
 	     frame.setTitle("Awesome adventure 2");
 	     draw=new drawer(backbuffer,getSize().width,getSize().height);
 	    */ repaint();
 	    //  e.consume();
-	    drawer.drawCheckers(backg, 2);
+	 
 			addKeyListener(this);
 	}
 	
@@ -56,9 +60,12 @@ public class tag extends Applet implements Runnable, KeyListener {
 	
 	public void run(){
 		while(true){
+			   drawer.maze();
+			    //drawer.checkers();
+			    drawer.drawMap(backg);
 			repaint();
 			try {
-				Thread.sleep(17);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -70,13 +77,13 @@ public class tag extends Applet implements Runnable, KeyListener {
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_UP:
 
-		    drawer.drawCheckers(backg, tileSize++);
+		   
 			System.out.println("moving up");
 		break;
 		//oops
 		case KeyEvent.VK_DOWN:
 
-		    drawer.drawCheckers(backg, tileSize--);
+		   
             System.out.println("moving down");
 		break;
 			
